@@ -14,6 +14,12 @@ class App extends Component {
       newTask: ''
     }
   }
+  changeStr = (e) => {
+    const newString = e.target.value;
+    this.setState( () => {
+      return{ newTask: newString}
+    })
+  }
   render() {
     return (
       <div className="wrapper">
@@ -23,7 +29,10 @@ class App extends Component {
             {this.state.tasks.map((task, index) => <li key={task.id}>{task.name}</li>)}
           </ul>
           <form>
-            <input type="text" id="new-task" placeholder="Ingresa una tarea y oprime Enter" value={this.state.newTask} />
+            <input type="text" id="new-task" placeholder="Ingresa una tarea y oprime Enter"
+                   value={this.state.newTask}
+                   onChange={ this.changeStr }
+            />
           </form>
         </div>
       </div>
