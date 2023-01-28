@@ -20,6 +20,24 @@ class App extends Component {
       return{ newTask: newString}
     })
   }
+  addTask= (e) => {
+    e.preventDefault();
+    console.log('envia')
+    console.log(this.state.newTask)
+    if( this.state.newTask === '') return;
+    const newObject = {
+      id: 99,
+      name: this.state.newTask,
+      done: false
+    }
+    const previousTaks = this.state.tasks;
+    this.setState( (state) => {
+      return {
+        tasks: [ ...previousTaks, newObject ],
+        newTask: ''
+      }
+    })
+  }
   render() {
     return (
       <div className="wrapper">
@@ -28,7 +46,7 @@ class App extends Component {
           <ul className="todo">
             {this.state.tasks.map((task, index) => <li key={task.id}>{task.name}</li>)}
           </ul>
-          <form>
+          <form onSubmit={ this.addTask }>
             <input type="text" id="new-task" placeholder="Ingresa una tarea y oprime Enter"
                    value={this.state.newTask}
                    onChange={ this.changeStr }
