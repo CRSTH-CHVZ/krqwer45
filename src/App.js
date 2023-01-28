@@ -22,9 +22,10 @@ class App extends Component {
   }
   addTask= (e) => {
     e.preventDefault();
-    console.log('envia')
-    console.log(this.state.newTask)
-    if( this.state.newTask === '') return;
+    if( this.state.newTask === ''){
+      alert('Necesitas escribir algo');
+      return
+    }
     const newObject = {
       id: 99,
       name: this.state.newTask,
