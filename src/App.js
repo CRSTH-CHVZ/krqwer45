@@ -61,13 +61,16 @@ class App extends Component {
       }
     })
   }
+  // styles = {
+  //   textDecoration: "line-through"
+  // }
   render() {
     return (
       <div className="wrapper">
         <div className="list">
           <h3>Por hacer:</h3>
           <ul className="todo">
-            {this.state.tasks.map((task, index) => <li key={task.id} onClick={ () => { this.handleClick(task) } }>{task.name}</li>)}
+            {this.state.tasks.map((task, index) => <li key={task.id} onClick={ () => { this.handleClick(task) } } style={{textDecoration: task.done ? "line-through" : "none"}}>{task.name}</li>)}
           </ul>
           <form onSubmit={ this.addTask }>
             <input type="text" id="new-task" placeholder="Ingresa una tarea y oprime Enter"
