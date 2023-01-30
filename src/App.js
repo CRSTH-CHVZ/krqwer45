@@ -8,7 +8,7 @@ class App extends Component {
     this.state = {
       tasks: [
         { id: 1, name: "Sacar la ropa", done: false },
-        { id: 2, name: "Hacer la cama", done: true },
+        { id: 2, name: "Hacer la cama", done: false },
         { id: 3, name: "Leer un rato", done: false }
       ],
       newTask: ''
@@ -61,9 +61,6 @@ class App extends Component {
       }
     })
   }
-  // styles = {
-  //   textDecoration: "line-through"
-  // }
   render() {
     return (
       <div className="wrapper">
@@ -76,6 +73,7 @@ class App extends Component {
             <input type="text" id="new-task" placeholder="Ingresa una tarea y oprime Enter"
                    value={this.state.newTask}
                    onChange={ this.changeStr }
+                   style={{ borderColor: this.state.newTask >= 0 ? 'red' : 'none'}}
             />
           </form>
         </div>
