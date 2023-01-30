@@ -39,13 +39,35 @@ class App extends Component {
       }
     })
   }
+  handleClick = (currentTask) => {
+    const otherTasks = this.state.tasks.filter( el => el.id !== currentTask.id );
+    const { id } = currentTask;
+    const { name } = currentTask;
+    const { done } = currentTask;
+    const modifiedTask = this.state.tasks;
+    const newObject = {
+      id,
+      name,
+      done: !currentTask.done
+    }
+
+    console.log('otherTasks', otherTasks);
+    console.log('id', id);
+    console.log('modifiedTask', modifiedTask);
+
+    this.setState( () => {
+      return {
+        tasks: [ ...otherTasks, newObject ]
+      }
+    })
+  }
   render() {
     return (
       <div className="wrapper">
         <div className="list">
           <h3>Por hacer:</h3>
           <ul className="todo">
-            {this.state.tasks.map((task, index) => <li key={task.id}>{task.name}</li>)}
+            {this.state.tasks.map((task, index) => <li key={task.id} onClick={ () => { this.handleClick(task) } }>{task.name}</li>)}
           </ul>
           <form onSubmit={ this.addTask }>
             <input type="text" id="new-task" placeholder="Ingresa una tarea y oprime Enter"
