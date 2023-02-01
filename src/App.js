@@ -8,73 +8,58 @@ class App extends Component {
     this.state = {
       tasks: [
         { id: 1, name: "Sacar la ropa", done: false },
-        { id: 2, name: "Hacer la cama", done: false },
+        { id: 2, name: "Hacer la cama", done: true },
         { id: 3, name: "Leer un rato", done: false }
       ],
       newTask: ''
     }
+
+    this.updateValue = this.updateValue.bind(this)
+    this.addTask = this.addTask.bind(this)
+    this.markDone = this.markDone.bind(this)
   }
-  changeStr = (e) => {
-    const newString = e.target.value;
-    this.setState( () => {
-      return{ newTask: newString}
+
+  updateValue(e) {
+    this.setState({
+      newTask: e.target.value
     })
   }
-  addTask= (e) => {
-    e.preventDefault();
-    if( this.state.newTask === ''){
-      alert('Necesitas escribir algo');
-      return
+
+  addTask(e) {
+    const objID = this.state.tasks.length + 1
+    let inputText = document.getElementById('new-task')
+
+    if (this.state.newTask.length !== 0) {
+      this.setState({
+        tasks: this.state.tasks.concat({id: objID, name: this.state.newTask, done: false}),
+        newTask: ""
+      })
     }
-    const highestId = this.state.tasks.reduce( (prev, current) => (prev.id > current.id) ? prev : current );
-    const newObject = {
-      id: highestId.id + 1,
-      name: this.state.newTask,
-      done: false
-    }
-    const previousTaks = this.state.tasks;
-    this.setState( (state) => {
-      return {
-        tasks: [ ...previousTaks, newObject ],
-        newTask: ''
-      }
+
+    e.preventDefault()
+  }
+
+  markDone(e) {
+    this.setState({
+      tasks: this.state.tasks.map(task =>
+          e.target.id == task.id ? task.done ? { id: task.id, name: task.name, done: false } : { id: task.id, name: task.name, done: true } : task
+      )
     })
   }
-  handleClick = (currentTask) => {
-    const { id } = currentTask;
-    let newListTasks = this.state.tasks.map( (item) => {
-      if( item.id === id){
-        return{
-          ...item,
-          done: !item.done
-        }
-      } else {
-        return {...item}
-      }
-    })
-    this.setState( () => {
-      return {
-        tasks: newListTasks
-      }
-    })
-  }
+
   render() {
     return (
-      <div className="wrapper">
-        <div className="list">
-          <h3>Por hacer:</h3>
-          <ul className="todo">
-            {this.state.tasks.map((task, index) => <li key={task.id} onClick={ () => { this.handleClick(task) } } style={{textDecoration: task.done ? "line-through" : "none"}}>{task.name}</li>)}
-          </ul>
-          <form onSubmit={ this.addTask }>
-            <input type="text" id="new-task" placeholder="Ingresa una tarea y oprime Enter"
-                   value={this.state.newTask}
-                   onChange={ this.changeStr }
-                   style={{ borderColor: this.state.newTask >= 0 ? 'red' : 'none'}}
-            />
-          </form>
+        <div className="wrapper">
+          <div className="list">
+            <h3>Por hacer:</h3>
+            <ul className="todo">
+              {this.state.tasks.map((task, index) => <li key={task.id} id={task.id} className={ task.done ? 'done' : '' } onClick={this.markDone}>{task.name}</li>)}
+            </ul>
+            <form onSubmit={this.addTask}>
+              <input type="text" id="new-task" className={this.state.newTask.length === 0 ? 'error' : ''} onChange={this.updateValue} placeholder="Ingresa una tarea y oprime Enter" value={this.state.newTask} />
+            </form>
+          </div>
         </div>
-      </div>
     )
   }
 }
