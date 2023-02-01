@@ -26,8 +26,9 @@ class App extends Component {
       alert('Necesitas escribir algo');
       return
     }
+    const highestId = this.state.tasks.reduce( (prev, current) => (prev.id > current.id) ? prev : current );
     const newObject = {
-      id: 99,
+      id: highestId.id + 1,
       name: this.state.newTask,
       done: false
     }
