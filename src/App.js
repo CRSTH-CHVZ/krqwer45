@@ -41,24 +41,20 @@ class App extends Component {
     })
   }
   handleClick = (currentTask) => {
-    const otherTasks = this.state.tasks.filter( el => el.id !== currentTask.id );
     const { id } = currentTask;
-    const { name } = currentTask;
-    const { done } = currentTask;
-    const modifiedTask = this.state.tasks;
-    const newObject = {
-      id,
-      name,
-      done: !currentTask.done
-    }
-
-    console.log('otherTasks', otherTasks);
-    console.log('id', id);
-    console.log('modifiedTask', modifiedTask);
-
+    let newListTasks = this.state.tasks.map( (item) => {
+      if( item.id === id){
+        return{
+          ...item,
+          done: !item.done
+        }
+      } else {
+        return {...item}
+      }
+    })
     this.setState( () => {
       return {
-        tasks: [ ...otherTasks, newObject ]
+        tasks: newListTasks
       }
     })
   }
